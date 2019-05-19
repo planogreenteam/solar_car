@@ -3,6 +3,7 @@
 
 import os, serial, time
 
+
 class vedirectsim:
 
     def __init__(self, serialport):
@@ -36,9 +37,7 @@ class vedirectsim:
         result.append(ord('\t'))
         result.append((256 - (sum(result) % 256)) % 256)
         return result
-                      
 
-        
     def send_packet(self):
         packet = self.convert(self.dict)
         for k in packet:

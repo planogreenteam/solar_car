@@ -66,7 +66,7 @@ class vedirect:
                 self.bytes_sum = 0
                 return self.dict
             else:
-                print ('Malformed packet')
+                print('Malformed packet')
                 self.bytes_sum = 0
         elif self.state == self.HEX:
             self.bytes_sum = 0
@@ -107,9 +107,8 @@ if __name__ == '__main__':
     parser.add_argument('--port', help='Serial port')
     parser.add_argument('--timeout', help='Serial port read timeout', type=int, default='60')
     args = parser.parse_args()
-    # print ("Port argument is " + args.port)
     ve = vedirect(args.port, args.timeout)
-    # ve.read_data_callback(print_data_callback)
+     # ve.read_data_callback(print_data_callback)
     dataTimer, volt, i, vpv, ppv, cs, err, h19, h20, h21, h22, h23 = ([] for i in range(12))
     # h19: yield total, h20: yield today, h21: power max today, h22: yield yesterday, h23: power mas yesterday
 # data collection, timed readings
@@ -143,4 +142,3 @@ if __name__ == '__main__':
         writer = csv.writer(output)
         writer.writerows(data)
     print ('Writing complete')
-# make an array store that gets the data added into it
