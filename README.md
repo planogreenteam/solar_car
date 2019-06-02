@@ -30,7 +30,7 @@ cat test/mppt.dump > /dev/vmodem0
 
 # Run with MPPT Charge Controller
 
-Here no socat command is needed. Hardwire the pi to the MPPT via USB connection. Create an SSH tunnel to the computer to work with the pi (use `ssh pi@<IP>`). Find the desired USB port with the command `ls /dev/tty* `. Expected port should be similar to `/dev/ttyUSB0`. Now run the program directly into this port:
+Here no socat command is needed. Hardwire the pi to the MPPT via USB connection. Create an SSH tunnel to the computer to work with the pi (use `ssh pi@<IP>`). The IP address is `192.168.50.49` and the pi password is "Raspberry2019". Find the desired USB port with the command `ls /dev/tty* `. Expected port should be similar to `/dev/ttyUSB0`. Now run the program directly into this port:
 
 ```
 python vedirect.py --port /dev/ttyUSB0
