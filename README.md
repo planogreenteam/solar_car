@@ -4,7 +4,7 @@ Use the socat command to create two virtual ports to facilitate communication:
 ```
 socat -d -d PTY,raw,echo=0,link=/tmp/vmodem0 PTY,raw,echo=0,link=/tmp/vmodem1
 ```
-
+(Note that if this the first time using the command, you will likely need to install it via `sudo apt-get install socat`.)
 Now `/tmp/vmodem0` and `/tmp/vmodem1` have been established. Expected response should be similar to:
 
 ```
