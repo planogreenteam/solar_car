@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+from __future__ import print_function
+from datetime import datetime
 import os, serial, argparse, csv
+
 
 
 class vedirect:
@@ -23,9 +25,7 @@ class vedirect:
 
     def input(self, byte):
         if byte == self.hexmarker and self.state != self.IN_CHECKSUM:
-            self.state = self.HEX
-
-        if self.state == self.WAIT_HEADER:
+            self.state = self.HEXif self.state == self.WAIT_HEADER:
             self.bytes_sum += ord(byte)
             if byte == self.header1:
                 self.state = self.WAIT_HEADER
@@ -97,12 +97,19 @@ class vedirect:
 
 def print_data_callback(data):
     # print(data)
+# data is a dictionary
+    dt = datetime.now() # current date and time
+    # time = now.strftime("%H:%M:%S")
+    data['TIME_H'] = dt.hour
     output = open('TestData.csv', 'a')
     writer = csv.writer(output)
-    for key, value in data.items():
-        writer.writerows([key, value])
+    writer.writerow([value for value in data.values()])
+#    for key, value in data.items():
+#        print(key, value, end=', ')
+#        writer.writerow([key, value])
+#    print(' ', end='\n')
     output.close()
-    print 'Writing Complete'
+    print('Writing Complete')
 
 
 if __name__ == '__main__':
@@ -111,5 +118,9 @@ if __name__ == '__main__':
     parser.add_argument('--timeout', help='Serial port read timeout', type=int, default='60')
     args = parser.parse_args()
     ve = vedirect(args.port, args.timeout)
+    with open('TestData.csv', 'a') as output:
+        writer = csv.writer(output)
+        writer.writerow(['LOAD', 'DM', 'ERR', 'FW', 'H21', 'H20', 'H23', 'H22', 'SOC', 'VPV', 'Relay', 'PID', 'H16', 'I', 'BMV', 'PPV', 'TTG', 'Alarm', 'H18', 'H19', 'H10', 'H11', 'H12', 'H13', 'H14', 'VM', 'CE', 'H15', 'P', 'AR', 'SER' , 'V', 'CS', 'H17', 'H8', 'H9', 'H2' , 'H3', 'IL', 'H1', 'H6', 'H7', 'H4', 'H5', 'VS', 'HSDS', 'T', 'TIME_H'])
+
     ve.read_data_callback(print_data_callback)
     # print(ve.read_data_single())
