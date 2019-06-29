@@ -8,7 +8,7 @@ import csv
 from ADSfruit_ADS1X15.ADS1115.analog_in import AnalogIn
 
 adc = Adafruit_ADS1x15.ADS1115()
-chan = AnalogIn(ads, ADS.P2, ADS.P3)
+"""chan = AnalogIn(ads, ADS.P2, ADS.P3)"""
 
 #ve = vedirect.vedirect("/dev/ttyUSB0", 1)
 
@@ -58,7 +58,8 @@ def updateCurrentOut():
 	writer = csv.writer(file)_
 	while True: 
 		try: 
-			vShunt = chan.voltage
+			"""vShunt = chan.voltage"""
+			vShunt = adc.read_adc_difference(3, gain=GAIN)
 q		except Exception as e: 
 			errfile = open('/error.txt')
 			errfile.write(str(e))
@@ -69,7 +70,7 @@ q		except Exception as e:
 
 		writer.writerow([vShunt, vCurrent])
 		
-		time.sleep(5)	
+		time.sleep(0.5)	
 
 file.close()
 
