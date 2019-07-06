@@ -4,11 +4,8 @@ import Adafruit_ADS1x15
 import time
 import vedirect
 import thread
-import csv
-from ADSfruit_ADS1X15.ADS1115.analog_in import AnalogIn
 
 adc = Adafruit_ADS1x15.ADS1115()
-"""chan = AnalogIn(ads, ADS.P2, ADS.P3)"""
 
 #ve = vedirect.vedirect("/dev/ttyUSB0", 1)
 
@@ -30,7 +27,7 @@ adc = Adafruit_ADS1x15.ADS1115()
 # See table 3 in the ADS1015/ADS1115 datasheet for more info on gain.
 GAIN = 2/3
 
-divider1ratio = 5.461233
+divider1ratio = 3.3333
 divider2ratio = 12
 
 voltageAux = 0.0
@@ -38,8 +35,7 @@ voltageMainMPPT = 0.0
 voltageMainBackup = 0.0
 vAux = 0.0
 vMain = 0.0
-vShunt = 0.0
-vCurrent = 0.0
+
 # def updateMPPTCallback(data):
 # 	global voltageMainMPPT
 # 	voltageMainMPPT = float(data["V"])/1000
@@ -51,29 +47,6 @@ vCurrent = 0.0
 #    thread.start_new_thread(callVE,())
 # except:
 #    print "Error: unable to start thread"
-def updateCurrentOut():
-	global vshunt
-	global vcurrent
-	file = open("/data/current.csv", "a")
-	writer = csv.writer(file)_
-	while True: 
-		try: 
-			"""vShunt = chan.voltage"""
-			vShunt = adc.read_adc_difference(3, gain=GAIN)
-q		except Exception as e: 
-			errfile = open('/error.txt')
-			errfile.write(str(e))
-			errfile.write("Error in reading")
-			errfile.close()
-		
-		vCurrent = vShunt / (0.5 * 10 ** (-3))		
-
-		writer.writerow([vShunt, vCurrent])
-		
-		time.sleep(0.5)	
-
-file.close()
-
 def updateVoltage():
 	global vAux
 	global voltageAux
@@ -83,29 +56,29 @@ def updateVoltage():
 			vAux = adc.read_adc(0, gain=GAIN)
 			#vMain = adc.read_adc(0, gain=GAIN)
 		except Exception as e:
-			print "error reading"
 			print e
 
 		voltageAux = divider1ratio*vAux*0.1875/1000
 		# voltageMainBackup = divider2ratio*vMain*0.1875/1000
 
+		time.sleep(.5)
+
 		# print "Main Voltage:"
 		# print voltageMainMPPT
 
 		if (voltageAux < 12.15):
-			os.system('mpg123 /home/pi/cool-guy-club/lowAux.mp3 &')
-			print("lowAux Called")
+			os.system('mpg123 -q lowAux.mp3 &')
 		# if (voltageMainBackup < 48.6 or voltageMainMPPT < 48.6):
 		# 	os.system('mpg123 -q lowMain.mp3 &')
 		print voltageAux
-
-		time.sleep(5)
 
 def getAuxV():
     global voltageAux
     return voltageAux
 try:
-    thread.start_new_thread(updateVoltage,())
+   thread.start_new_thread(updateVoltage,())
 except:
-    print "Error: unable to start thread"
+   print "Error: unable to start thread"
 
+while True:
+	time.sleep(.2)
