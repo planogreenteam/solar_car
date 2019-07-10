@@ -28,11 +28,11 @@ def updateCurrent():
 		return current
 	except Exception as e: 
 		print(e)
-j = 0
-while j < 500: 
-	updateCurrent()
-	j += 1
-	time.sleep(2)
+#j = 0
+#while j < 500: 
+#	updateCurrent()
+#	j += 1
+#	time.sleep(2)
 
 #csvfile.close()
 #file.close()

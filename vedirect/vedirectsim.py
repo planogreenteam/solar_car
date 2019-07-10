@@ -41,7 +41,7 @@ class vedirectsim:
     def send_packet(self):
         packet = self.convert(self.dict)
         for k in packet:
-            self.ser.write(chr(k))
+            self.ser.write(chr(k).encode())
 
         
 if __name__ == '__main__':

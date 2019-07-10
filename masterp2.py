@@ -1,4 +1,4 @@
-from __future__ import print_function
+#from __future__ import print_function
 import time
 # import display
 #import batmonitor
@@ -30,7 +30,10 @@ while (True):
     datadict = vedirect_m.run()
     voltageMain = datadict['V']
     print(voltageMain)
-
+    file = open('voltagedata.txt', 'a+')
+    file.write(voltageMain)
+    file.write('\n')
+    file.close()
 # write to webpage
 
     time.sleep(.5)

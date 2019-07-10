@@ -87,12 +87,14 @@ class vedirect:
 
     def read_data_callback(self, callbackFunction):
 # removing while true loop failed, attempted to create synergy with master file
-         byte = self.ser.read(1)
-         if byte:
-            packet = self.input(byte)
-            if packet is not None:
-                callbackFunction(packet)
-
+        while True:        
+            byte = self.ser.read(1)
+            if byte:
+                packet = self.input(byte)
+                if packet is not None:
+                    callbackFunction(packet)
+            else:
+                break
 
 def print_data_callback(data):
     # print(data)
@@ -107,7 +109,7 @@ def print_data_callback(data):
 #    print(' ', end='\n')
    # output.close()
    # print('Writing Complete')
-#   print(data)
+    print(data)
     return data['V']
 
 
@@ -120,7 +122,7 @@ def run():
     return ve.read_data_single()
 
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
  #   try:
        #  print("program started")
     # parser = argparse.ArgumentParser(description='Process VE.Direct protocol')
@@ -129,12 +131,12 @@ def run():
     # args = parser.parse_args()
     #ve = vedirect(args.port, args.timeout)
   #      ve = vedirect('/dev/ttyUSB0', 60)
-#	ve = vedirect('/tmp/vmodem1', 60)
+    ve = vedirect('/tmp/vmodem1', 60)
 	# with open('datawrite.csv', 'a+') as output:
          #       writer = csv.writer(output)
         # writer.writerow(['LOAD', 'DM', 'ERR', 'FW', 'H21', 'H20', 'H23', 'H22', 'SOC', 'VPV', 'Relay', 'PID', 'H16', 'I', 'BMV', 'PPV', 'TTG', 'Alarm', 'H18', 'H19', 'H10', 'H11', 'H12', 'H13', 'H14', 'VM', 'CE', 'H15', 'P', 'AR', 'SER' , 'V', 'CS', 'H17', 'H8', 'H9', 'H2' , 'H3', 'IL', 'H1', 'H6', 'H7', 'H4', 'H5', 'VS', 'HSDS', 'T', 'TIME_H'])
 
-#	ve.read_data_callback(print_data_callback)
+    ve.read_data_callback(print_data_callback)
     # print(ve.read_data_single())
  #   except Exception as e:
 #	errfile = open('/tmp/error.txt', 'w')
