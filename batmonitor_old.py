@@ -1,17 +1,17 @@
 #https://github.com/karioja/vedirect/blob/master/vedirect.py
 import os
-import board
-import busio
-#import Adafruit_ADS1x15
-import adafruit_ads1x15.ads1115 as ADS
+#import board
+#import busio
+import Adafruit_ADS1x15
+#import adafruit_ads1x15.ads1115 as ADS
 import time
 #import vedirect
 import thread
-from adafruit_ads1x15.analog_in import AnalogIn
+#from adafruit_ads1x15.analog_in import AnalogIn
 
-i2c = busio.I2C(board.SCL, board.SDA)
-#adc = Adafruit_ADS1x15.ADS1115()
-ads = ADS.ADS1115(i2c)
+#i2c = busio.I2C(board.SCL, board.SDA)
+adc = Adafruit_ADS1x15.ADS1115()
+#ads = ADS.ADS1115(i2c)
 #ve = vedirect.vedirect("/dev/ttyUSB0", 1)
 
 # Or create an ADS1015 ADC (12-bit) instance.
@@ -55,13 +55,13 @@ vMain = 0.0
 def updateVoltage():
 	global vAux
 	global voltageAux
-	chanp0 = AnalogIn(ads, ADS.P0)
-	chanp1 = AnalogIn(ads, ADS.P1)
+	#chanp0 = AnalogIn(ads, ADS.P0)
+	#chanp1 = AnalogIn(ads, ADS.P1)
 	while True:
 		try:
-			#vAux = adc.read_adc(0, gain=GAIN)
+			vAux = adc.read_adc(0, gain=GAIN)
 			#vMain = adc.read_adc(0, gain=GAIN)
-			vAux = chanp0.voltage - chanp1.voltage
+			#vAux = chanp0.voltage - chanp1.voltage
 		except Exception as e:
 			#print e
 			print(e)
