@@ -6,7 +6,6 @@ from datetime import datetime
 import os, serial, argparse, csv
 
 
-
 class vedirect:
 
     def __init__(self, serialport, timeout):
@@ -27,8 +26,8 @@ class vedirect:
     def input(self, byte):
         if byte == self.hexmarker and self.state != self.IN_CHECKSUM:
             self.state = self.HEX	
-	if self.state == self.WAIT_HEADER:
- 	    self.bytes_sum += ord(byte)
+        if self.state == self.WAIT_HEADER:
+            self.bytes_sum += ord(byte)
             if byte == self.header1:
                 self.state = self.WAIT_HEADER
             elif byte == self.header2:
@@ -87,11 +86,11 @@ class vedirect:
                 return packet
 
     def read_data_callback(self, callbackFunction):
-       # removing while true loop failed, attempted to create synergy with master file
+# removing while true loop failed, attempted to create synergy with master file
          byte = self.ser.read(1)
          if byte:
             packet = self.input(byte)
-            if packet != None:
+            if packet is not None:
                 callbackFunction(packet)
 
 
@@ -109,16 +108,16 @@ def print_data_callback(data):
    # output.close()
    # print('Writing Complete')
 #   print(data)
-   return data['V']
+    return data['V']
 
 
 
 
 
 def run():
-	ve = vedirect('/tmp/vmodem1', 60)
+    ve = vedirect('/tmp/vmodem1', 60)
 	#return ve.read_data_callback(print_data_callback)
-	return ve.read_data_single()
+    return ve.read_data_single()
 
 
 #if __name__ == '__main__':
