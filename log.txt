@@ -1,0 +1,20 @@
+- Set pi in AP mode
+- Get the i2c connection to work consistently
+- Get a display for power out
+- Set up master file for batmonitor, shuntcurrent, blinkers
+- Test functionality of program physically
+- Take data 8-12 AM
+
+
+AP Mode:
+Join device to RP3 network (password: raspberry)
+TCIP IP
+Set manual IP to 192.168.4.2 or .3 etc
+set router IP to 192.168.4.1
+Link only mode 
+
+To switch on pi: 
+uncomment /etc/network/interfaces lines 
+start hostapd demon 
+then restart
+
