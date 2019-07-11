@@ -2,15 +2,12 @@
 import os
 import board
 import busio
-#import Adafruit_ADS1x15
 import adafruit_ads1x15.ads1115 as ADS
 import time
-#import vedirect
 import thread
 from adafruit_ads1x15.analog_in import AnalogIn
 
 i2c = busio.I2C(board.SCL, board.SDA)
-#adc = Adafruit_ADS1x15.ADS1115()
 ads = ADS.ADS1115(i2c)
 #ve = vedirect.vedirect("/dev/ttyUSB0", 1)
 
@@ -35,12 +32,6 @@ GAIN = 2/3
 divider1ratio = 3.3333
 divider2ratio = 12
 
-voltageAux = 0.0
-voltageMainMPPT = 0.0
-voltageMainBackup = 0.0
-vAux = 0.0
-vMain = 0.0
-
 # def updateMPPTCallback(data):
 # 	global voltageMainMPPT
 # 	voltageMainMPPT = float(data["V"])/1000
@@ -53,42 +44,19 @@ vMain = 0.0
 # except:
 #    print "Error: unable to start thread"
 def updateVoltage():
-	global vAux
-	global voltageAux
 	chanp0 = AnalogIn(ads, ADS.P0)
 	chanp1 = AnalogIn(ads, ADS.P1)
+	voltageAUX = 0
 	while True:
 		try:
-			#vAux = adc.read_adc(0, gain=GAIN)
-			#vMain = adc.read_adc(0, gain=GAIN)
-			vAux = chanp0.voltage - chanp1.voltage
+			voltageAux = chanp0.voltage - chanp1.voltage
 		except Exception as e:
-			#print e
 			print(e)
 
-		# voltageAux = divider1ratio*vAux*0.1875/1000
-		# voltageMainBackup = divider2ratio*vMain*0.1875/1000
-
-		voltageAux = vAux 
-		time.sleep(2)
-
-		# print "Main Voltage:"
-		# print voltageMainMPPT
+		# multiplier
+                voltageAux *= 69
 
 		if (voltageAux < 12.15):
-			os.system('mpg123 -q lowAux.mp3 &')
-		# if (voltageMainBackup < 48.6 or voltageMainMPPT < 48.6):
-		# 	os.system('mpg123 -q lowMain.mp3 &')
+			os.system('mpg123 -q lowAUX.mp3 &')
 		print(voltageAux)
 		print(type(voltageAux))
-
-def getAuxV():
-    global voltageAux
-    return voltageAux
-try:
-   thread.start_new_thread(updateVoltage,())
-except:
-   print("Error: unable to start thread")
-
-while True:
-	time.sleep(.2)

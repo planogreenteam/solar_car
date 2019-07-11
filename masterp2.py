@@ -4,7 +4,7 @@ import time
 #import batmonitor
 # import gpshandler
 #import shuntcurrent
-# import blinker
+import blinker
 import vedirect_m 
 
 while (True):
@@ -22,18 +22,13 @@ while (True):
   #  print text
   #  display.updateDisplay(text)
   
-  #  blinker.updatePins()
-#    scurrent = shuntcurrent.updateCurrent()
-#    print(scurrent)
-#    voltageMain = vedirect_m.run()
-#    print voltageMain
     datadict = vedirect_m.run()
     voltageMain = datadict['V']
-    print(voltageMain)
+    #print(voltageMain)
     file = open('voltagedata.txt', 'a+')
     file.write(voltageMain)
     file.write('\n')
     file.close()
-# write to webpage
+    blinker.updatePins()
 
     time.sleep(.5)

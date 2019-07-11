@@ -6,6 +6,9 @@ import time
 import shuntcurrent
 # import blinker
 #import vedirect_m 
+import csv
+csvfile = open("ADCdata.csv", "a+")
+writer = csv.writer(csvfile)
 
 while (True):
   #  global speedM
@@ -22,19 +25,17 @@ while (True):
   #  print text
   #  display.updateDisplay(text)
   
-  #  blinker.updatePins()
-#    scurrent = shuntcurrent.updateCurrent()
-#    print(scurrent)
-#    voltageMain = vedirect_m.run()
-#    print voltageMain
+    blinker.updatePins()
 
     scurrent = shuntcurrent.updateCurrent()
     print(scurrent)
+    #a = [0, scurrent]
+    #writer.writerow(a)
     file = open('currentdata.txt', 'a+')
-    file.write(scurrent)
+    file.write(str(scurrent))
     file.write('\n')
     file.close()
 
-# write to webpage
-
     time.sleep(.5)
+
+csvfile.close()
